@@ -1,2 +1,2 @@
 # C2018
-Example codes from C2018 lectures
+Example codes from my computer programming course at National Taiwan University
