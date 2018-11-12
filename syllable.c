@@ -18,10 +18,11 @@ void printOthers(char word[], int i, int j, int position[])
   printf("%s\n", toPrint);
 }
   
-void printSyllable(char word[], int length, int index, int position[])
+void printSyllable(char word[], int index, int position[])
 {
   char toPrint[WORDLEN];
-  for (int i = 0; i < strlen(word); i++)
+  int length = strlen(word);
+  for (int i = 0; i < length; i++)
     toPrint[i] = '+';
   toPrint[strlen(word)] = '\0';
 
@@ -34,7 +35,7 @@ void printSyllable(char word[], int length, int index, int position[])
   printf("%s\n", toPrint);
 }
 
-int findVowel(char word[], int position[])
+void findVowel(char word[], int position[])
 {
   char *vowel = "aeiou";
   int length = strlen(word);
@@ -42,7 +43,6 @@ int findVowel(char word[], int position[])
   for (int i = 0; i < length; i++)
     if (strchr(vowel, word[i]) != NULL) 
       position[count++] = i;
-  return count;
 }
 
 int main()
@@ -51,9 +51,9 @@ int main()
   int position[WORDLEN];
   int i, j;
   while(scanf("%s%d%d", word, &i, &j) != EOF) {
-    int length = findVowel(word, position);
-    printSyllable(word, length, i, position);
-    printSyllable(word, length, j, position);
+    findVowel(word, position);
+    printSyllable(word, i, position);
+    printSyllable(word, j, position);
     printOthers(word, i, j, position);
   }
 }
