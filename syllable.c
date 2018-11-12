@@ -5,12 +5,8 @@
 
 void fillPlus(char word[], int index, int position[])
 {
-  if (index > 0)
-    for (int i = position[index - 1] + 1; i <= position[index]; i++)
-      word[i] = '+';
-  else				/* == 0 */
-    for (int i = 0; i <= position[0]; i++)
-      word[i] = '+';
+  for (int i = ((index > 0)? position[index - 1] + 1 : 0); i <= position[index]; i++)
+    word[i] = '+';
 }
 
 void printOthers(char word[], int i, int j, int position[])
