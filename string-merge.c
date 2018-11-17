@@ -8,12 +8,12 @@ void merge(char *source1, char *source2, char *destination)
   while (*source1 != '\0' && *source2 != '\0') {
     if (strncmp(source1, source2, K) < 0) {
       strncpy(destination, source1, K);
-      source1 += 3;
+      source1 += K;
     } else {
       strncpy(destination, source2, K);
-      source2 += 3;
+      source2 += K;
     }
-    destination += 3;
+    destination += K;
   }
   strcpy(destination, (*source1 == '\0')? source2 : source1);
 }
