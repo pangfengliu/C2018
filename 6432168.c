@@ -3,6 +3,9 @@
 #define ONETOMANY 1
 #define MANYTOONE 0
 
+#define FORMAT 4
+#define STRLEN 3
+
 int char2byte(char c)
 {
   switch (c) {
@@ -20,13 +23,12 @@ int char2byte(char c)
 void manytoone(char *format, unsigned int thirtytwo,
 	       unsigned short int sixteen, char *string)
 {
-#ifdef DEBUG
-  printf("%s %u %hu %s\n", format, thirtytwo, sixteen, string);
-#endif
   int charCount = 0;
   unsigned long long sixtyfour = 0;
-  for (int i = 0; i < 4; i++) {
-    switch (char2byte(format[i])) {
+  for (int i = 0; i < FORMAT; i++) {
+    int numbyte = char2byte(format[i]);
+    sixtyfour <<= (numbyte * 8);
+    switch (numbyte) {
     case 1:			/* C */
       sixtyfour |= string[charCount++];
       break;
@@ -37,8 +39,6 @@ void manytoone(char *format, unsigned int thirtytwo,
       sixtyfour |= thirtytwo;
       break;
     }
-    if (i < 3)
-      sixtyfour <<= ((char2byte(format[i + 1]) * 8));
   }
   printf("%llu\n", sixtyfour);
 }
@@ -47,15 +47,12 @@ void onetomany(char *format, unsigned long long sixtyfour)
 {
   unsigned int thirtytwo;
   unsigned short int sixteen;
-  char string[4] = {0};
+  char string[STRLEN] = {0};
   int charCount = 1;
   
-  for (int i = 3; i >= 0; i--) {
+  for (int i = FORMAT - 1; i >= 0; i--) {
     int numbyte = char2byte(format[i]);
     unsigned long long mask = ((unsigned long long)1 << (numbyte * 8)) - 1;
-#ifdef DEBUG
-    printf("%llx %llx %d\n", sixtyfour, mask, numbyte);
-#endif
     switch (numbyte) {
     case 1:			/* C */
       string[charCount--] = sixtyfour & mask;
@@ -79,7 +76,7 @@ int main()
   unsigned long long int sixtyfour;
   unsigned int thirtytwo;
   unsigned short int sixteen;
-  char string[4], format[20];
+  char string[STRLEN], format[FORMAT + 1];
   switch (type) {
   case MANYTOONE:
     while (scanf("%s%u%hu%s", format, &thirtytwo, &sixteen, string) != EOF)
