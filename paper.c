@@ -19,7 +19,7 @@ int onTop(Paper a, Paper b)
 Solution better(Solution a, Solution b)
 {
   return (((a.layer > b.layer) ||
-	   ((a.layer == b.layer) && a.sum > b.sum))? a : b);
+	   ((a.layer == b.layer) && (a.sum > b.sum)))? a : b);
 }
 
 Solution bestSolution(int index, int n, Paper top, Paper papers[],
@@ -37,6 +37,8 @@ Solution bestSolution(int index, int n, Paper top, Paper papers[],
     return bestSolution(index + 1, n, top, papers, solution);
 }
 
+#define BOTTOM 10000
+
 int main()
 {
   int n;
@@ -46,7 +48,7 @@ int main()
     scanf("%d%d", &(papers[i].width), &(papers[i].height));
 
   Solution zero = {0, 0};
-  Paper bottom = {10000, 10000};
+  Paper bottom = {BOTTOM, BOTTOM};
   Solution best = bestSolution(0, n, bottom, papers, zero);
   printf("%d %d\n", best.layer, best.sum);
   return 0;
